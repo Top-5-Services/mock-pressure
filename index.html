@@ -153,29 +153,30 @@
             background-color: #fafafa;
             border: 1.5px solid #e5e7eb;
             border-radius: 10px;
-            padding: 12px 16px;
+            padding: 10px 14px;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            gap: 6px;
         }
         
         .checkbox-label {
             display: flex;
             align-items: center;
             font-weight: 400;
-            font-size: 14px;
+            font-size: 13px;
             color: #374151;
             cursor: pointer;
             margin-bottom: 0;
+            padding: 4px 0;
         }
         
         .checkbox-label input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            margin-right: 8px;
+            width: 16px;
+            height: 16px;
+            min-width: 16px;
+            margin-right: 6px;
             cursor: pointer;
             accent-color: #005293;
-            flex-shrink: 0;
         }
         
         .checkbox-error {
@@ -191,6 +192,28 @@
         }
         .datetime-row .form-group {
             flex: 1;
+        }
+        
+        .select-wrapper {
+            position: relative;
+        }
+        
+        .select-loading {
+            display: none;
+            position: absolute;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 50%;
+            border-top-color: #005293;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        .select-loading.show {
+            display: block;
         }
         
         /* === SUBMIT BUTTON === */
@@ -332,6 +355,7 @@
             
             .checkbox-group {
                 grid-template-columns: 1fr;
+                gap: 4px;
             }
             
             input, select, textarea {
@@ -443,9 +467,12 @@
                     <div class="datetime-row">
                         <div class="form-group">
                             <label for="selectedDate" class="required">Preferred Date</label>
-                            <select id="selectedDate" name="selectedDate" required>
-                                <option value="">Loading...</option>
-                            </select>
+                            <div class="select-wrapper">
+                                <select id="selectedDate" name="selectedDate" required>
+                                    <option value="">Loading dates...</option>
+                                </select>
+                                <span class="select-loading" id="dateLoading"></span>
+                            </div>
                         </div>
                         
                         <div class="form-group">
@@ -501,6 +528,10 @@
         // Fetch available dates/times from Google Apps Script
         async function loadAvailability() {
             const dateSelect = document.getElementById('selectedDate');
+            const dateLoading = document.getElementById('dateLoading');
+            
+            // Show loading spinner
+            dateLoading.classList.add('show');
             
             try {
                 const response = await fetch(GOOGLE_SCRIPT_URL + '?action=getAvailability');
@@ -526,6 +557,9 @@
                 console.error('Error loading availability:', error);
                 generateDefaultDates();
             }
+            
+            // Hide loading spinner
+            dateLoading.classList.remove('show');
         }
         
         // Generate default dates if no calendar connected
