@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Pressure Washers - Schedule a Quote</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f0f2f5;
+            min-height: 100vh;
+            padding: 16px;
+            color: #1a1a2e;
+        }
+        
+        .container {
+            max-width: 440px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        
+        /* === BANNER SECTION === */
+        .banner {
+            width: 100%;
+            height: 160px;
+            background: url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=80') center center;
+            background-size: cover;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 82, 147, 0.85) 0%, rgba(0, 50, 90, 0.9) 100%);
+        }
+        .banner-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: white;
+        }
+        .banner-logo {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 32px;
+            font-weight: 700;
+            color: #005293;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .banner-company {
+            font-size: 20px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        /* === CONTENT AREA === */
+        .content {
+            padding: 24px 20px 28px;
+        }
+        
+        .tagline {
+            text-align: center;
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 24px;
+            font-weight: 400;
+        }
+        
+        /* === FORM STYLES === */
+        .form-group {
+            margin-bottom: 18px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            font-size: 14px;
+            color: #374151;
+        }
+        
+        .required::after {
+            content: " *";
+            color: #dc2626;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+            color: #1a1a2e;
+            background-color: #fafafa;
+            transition: all 0.2s ease;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #005293;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(0, 82, 147, 0.1);
+        }
+        
+        input::placeholder, textarea::placeholder {
+            color: #9ca3af;
+        }
+        
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 18px;
+            padding-right: 44px;
+            cursor: pointer;
+        }
+        
+        textarea {
+            height: 90px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+        
+        /* === DATE/TIME ROW === */
+        .datetime-row {
+            display: flex;
+            gap: 12px;
+        }
+        .datetime-row .form-group {
+            flex: 1;
+        }
+        
+        /* === SUBMIT BUTTON === */
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #005293 0%, #003d6e 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0, 82, 147, 0.25);
+        }
+        
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(0, 82, 147, 0.3);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        /* === CONFIRMATION SCREEN === */
+        .confirmation {
+            display: none;
+            text-align: center;
+            padding: 50px 24px;
+        }
+        
+        .confirmation.show {
+            display: block;
+        }
+        
+        .checkmark-circle {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+        }
+        
+        .checkmark {
+            font-size: 36px;
+            color: #ffffff;
+            line-height: 1;
+        }
+        
+        .confirmation h2 {
+            color: #1a1a2e;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        .confirmation p {
+            color: #6b7280;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+        
+        .confirmation button {
+            background: linear-gradient(135deg, #005293 0%, #003d6e 100%);
+        }
+        
+        /* === HIDE FORM WHEN CONFIRMED === */
+        .form-content.hide {
+            display: none;
+        }
+        
+        /* === FOOTER === */
+        .footer {
+            text-align: center;
+            padding: 16px 20px 20px;
+            border-top: 1px solid #f0f2f5;
+        }
+        
+        .footer p {
+            font-size: 12px;
+            color: #9ca3af;
+        }
+        
+        /* === LOADING STATE === */
+        .loading {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #ffffff;
+            animation: spin 0.8s linear infinite;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* === MOBILE OPTIMIZATIONS === */
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+            
+            .container {
+                border-radius: 12px;
+            }
+            
+            .banner {
+                height: 140px;
+            }
+            
+            .content {
+                padding: 20px 16px 24px;
+            }
+            
+            .datetime-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            input, select, textarea {
+                padding: 12px 14px;
+            }
+            
+            button {
+                padding: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <!-- BANNER -->
+        <div class="banner">
+            <div class="banner-content">
+                <div class="banner-logo">M</div>
+                <div class="banner-company">Mock Pressure Washers</div>
+            </div>
+        </div>
+        
+        <div class="content">
+            
+            <div class="tagline">Schedule Your Free Quote</div>
+            
+            <!-- FORM CONTENT -->
+            <div class="form-content" id="formContent">
+                <form id="quoteForm">
+                    
+                    <!-- Hidden field for company identification -->
+                    <input type="hidden" id="companyName" name="companyName" value="Mock Pressure Washers">
+                    
+                    <!-- Customer Information -->
+                    <div class="form-group">
+                        <label for="name" class="required">Full Name</label>
+                        <input type="text" id="name" name="name" required placeholder="John Smith">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone" class="required">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="(555) 123-4567">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="john@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address" class="required">Service Address</label>
+                        <input type="text" id="address" name="address" required placeholder="123 Main St, City, AZ 85001">
+                    </div>
+                    
+                    <!-- Service Type - PRESSURE WASHING SPECIFIC -->
+                    <div class="form-group">
+                        <label for="serviceType" class="required">What needs cleaning?</label>
+                        <select id="serviceType" name="serviceType" required>
+                            <option value="">Select a surface...</option>
+                            <option value="Driveway">Driveway</option>
+                            <option value="Sidewalk">Sidewalk / Walkway</option>
+                            <option value="Patio">Patio</option>
+                            <option value="Deck">Deck</option>
+                            <option value="Fence">Fence</option>
+                            <option value="House Exterior">House Exterior / Siding</option>
+                            <option value="Roof">Roof</option>
+                            <option value="Pool Deck">Pool Deck</option>
+                            <option value="Garage Floor">Garage Floor</option>
+                            <option value="Concrete">Other Concrete</option>
+                            <option value="Commercial">Commercial Property</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Date and Time -->
+                    <div class="datetime-row">
+                        <div class="form-group">
+                            <label for="selectedDate" class="required">Preferred Date</label>
+                            <select id="selectedDate" name="selectedDate" required>
+                                <option value="">Loading...</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="selectedTime" class="required">Preferred Time</label>
+                            <select id="selectedTime" name="selectedTime" required>
+                                <option value="">Select date first</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional Notes -->
+                    <div class="form-group">
+                        <label for="notes">Additional Notes</label>
+                        <textarea id="notes" name="notes" placeholder="Square footage, stains, gate codes, or any special requests..."></textarea>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" id="submitBtn">Request Quote</button>
+                    
+                </form>
+            </div>
+            
+            <!-- CONFIRMATION SCREEN -->
+            <div class="confirmation" id="confirmation">
+                <div class="checkmark-circle">
+                    <span class="checkmark">✓</span>
+                </div>
+                <h2>Request Submitted!</h2>
+                <p>Thank you! Mock Pressure Washers will contact you shortly to confirm your appointment.</p>
+                <button type="button" id="submitAnotherBtn">Submit Another Request</button>
+            </div>
+            
+        </div>
+        
+        <div class="footer">
+            <p>Powered by Gilbert's Top 5</p>
+        </div>
+        
+    </div>
+    
+    <script>
+        // Google Apps Script Web App URL
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxODOV0uawlvUmC-0LmUnKYKrNvaKQCj7fRmURkARbI_wagiXrsWFIFLQFdQhWylIN_/exec';
+        
+        // Store availability data
+        let availabilityData = {};
+        
+        // Load availability when page opens
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAvailability();
+        });
+        
+        // Fetch available dates/times from Google Apps Script
+        async function loadAvailability() {
+            const dateSelect = document.getElementById('selectedDate');
+            
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL + '?action=getAvailability');
+                availabilityData = await response.json();
+                
+                // Populate date dropdown
+                dateSelect.innerHTML = '<option value="">Select a date...</option>';
+                
+                const dates = Object.keys(availabilityData).sort();
+                
+                if (dates.length === 0) {
+                    generateDefaultDates();
+                } else {
+                    dates.forEach(function(date) {
+                        const option = document.createElement('option');
+                        option.value = date;
+                        option.textContent = formatDisplayDate(date);
+                        dateSelect.appendChild(option);
+                    });
+                }
+                
+            } catch (error) {
+                console.error('Error loading availability:', error);
+                generateDefaultDates();
+            }
+        }
+        
+        // Generate default dates if no calendar connected
+        function generateDefaultDates() {
+            const dateSelect = document.getElementById('selectedDate');
+            dateSelect.innerHTML = '<option value="">Select a date...</option>';
+            
+            const today = new Date();
+            
+            for (let d = 1; d <= 30; d++) {
+                const checkDate = new Date(today);
+                checkDate.setDate(today.getDate() + d);
+                
+                const dayOfWeek = checkDate.getDay();
+                if (dayOfWeek === 0 || dayOfWeek === 6) continue;
+                
+                const dateString = formatDateValue(checkDate);
+                const option = document.createElement('option');
+                option.value = dateString;
+                option.textContent = formatDisplayDate(dateString);
+                dateSelect.appendChild(option);
+                
+                if (!availabilityData[dateString]) {
+                    availabilityData[dateString] = [
+                        '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM',
+                        '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'
+                    ];
+                }
+            }
+        }
+        
+        function formatDateValue(date) {
+            const year = date.getFullYear();
+            const month = ('0' + (date.getMonth() + 1)).slice(-2);
+            const day = ('0' + date.getDate()).slice(-2);
+            return year + '-' + month + '-' + day;
+        }
+        
+        function formatDisplayDate(dateString) {
+            const parts = dateString.split('-');
+            const date = new Date(parts[0], parts[1] - 1, parts[2]);
+            const options = { weekday: 'short', month: 'short', day: 'numeric' };
+            return date.toLocaleDateString('en-US', options);
+        }
+        
+        // Update time dropdown when date changes
+        document.getElementById('selectedDate').addEventListener('change', function() {
+            const timeSelect = document.getElementById('selectedTime');
+            const selectedDate = this.value;
+            
+            timeSelect.innerHTML = '<option value="">Select a time...</option>';
+            
+            if (selectedDate && availabilityData[selectedDate]) {
+                availabilityData[selectedDate].forEach(function(time) {
+                    const option = document.createElement('option');
+                    option.value = time;
+                    option.textContent = time;
+                    timeSelect.appendChild(option);
+                });
+            }
+        });
+        
+        // Form submission
+        document.getElementById('quoteForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="loading"></span>Submitting...';
+            
+            const formData = {
+                companyName: document.getElementById('companyName').value,
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                address: document.getElementById('address').value,
+                serviceType: document.getElementById('serviceType').value,
+                selectedDate: document.getElementById('selectedDate').value,
+                selectedTime: document.getElementById('selectedTime').value,
+                notes: document.getElementById('notes').value
+            };
+            
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                document.getElementById('formContent').classList.add('hide');
+                document.getElementById('confirmation').classList.add('show');
+                
+            } catch (error) {
+                alert('There was an error submitting your request. Please try again.');
+                console.error('Error:', error);
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Request Quote';
+            }
+        });
+        
+        // Submit another form button
+        document.getElementById('submitAnotherBtn').addEventListener('click', function() {
+            document.getElementById('quoteForm').reset();
+            document.getElementById('selectedTime').innerHTML = '<option value="">Select date first</option>';
+            
+            document.getElementById('formContent').classList.remove('hide');
+            document.getElementById('confirmation').classList.remove('show');
+            
+            document.getElementById('submitBtn').disabled = false;
+            document.getElementById('submitBtn').textContent = 'Request Quote';
+            
+            loadAvailability();
+        });
+    </script>
+</body>
+</html>
