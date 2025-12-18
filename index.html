@@ -148,6 +148,42 @@
             line-height: 1.5;
         }
         
+        /* === CHECKBOX GROUP === */
+        .checkbox-group {
+            background-color: #fafafa;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 12px 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            font-weight: 400;
+            font-size: 14px;
+            color: #374151;
+            cursor: pointer;
+            margin-bottom: 0;
+        }
+        
+        .checkbox-label input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            cursor: pointer;
+            accent-color: #005293;
+            flex-shrink: 0;
+        }
+        
+        .checkbox-error {
+            color: #dc2626;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+        
         /* === DATE/TIME ROW === */
         .datetime-row {
             display: flex;
@@ -294,6 +330,10 @@
                 gap: 0;
             }
             
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+            
             input, select, textarea {
                 padding: 12px 14px;
             }
@@ -347,24 +387,56 @@
                         <input type="text" id="address" name="address" required placeholder="123 Main St, City, AZ 85001">
                     </div>
                     
-                    <!-- Service Type - PRESSURE WASHING SPECIFIC -->
+                    <!-- Service Type - MULTI-SELECT CHECKBOXES -->
                     <div class="form-group">
-                        <label for="serviceType" class="required">What needs cleaning?</label>
-                        <select id="serviceType" name="serviceType" required>
-                            <option value="">Select a surface...</option>
-                            <option value="Driveway">Driveway</option>
-                            <option value="Sidewalk">Sidewalk / Walkway</option>
-                            <option value="Patio">Patio</option>
-                            <option value="Deck">Deck</option>
-                            <option value="Fence">Fence</option>
-                            <option value="House Exterior">House Exterior / Siding</option>
-                            <option value="Roof">Roof</option>
-                            <option value="Pool Deck">Pool Deck</option>
-                            <option value="Garage Floor">Garage Floor</option>
-                            <option value="Concrete">Other Concrete</option>
-                            <option value="Commercial">Commercial Property</option>
-                            <option value="Other">Other</option>
-                        </select>
+                        <label class="required">What needs cleaning?</label>
+                        <div class="checkbox-group" id="serviceTypeGroup">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="serviceType" value="Driveway">
+                                Driveway
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="serviceType" value="Sidewalk">
+                                Sidewalk / Walkway
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="serviceType" value="Patio">
+                                Patio
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="serviceType" value="Deck">
+                                Deck
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="serviceType" value="Fence">
+                                Fence
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="serviceType" value="House Exterior">
+                                House Exterior
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="serviceType" value="Roof">
+                                Roof
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="serviceType" value="Pool Deck">
+                                Pool Deck
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="serviceType" value="Garage Floor">
+                                Garage Floor
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="serviceType" value="Commercial">
+                                Commercial
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="serviceType" value="Other">
+                                Other
+                            </label>
+                        </div>
+                        <div class="checkbox-error" id="serviceError" style="display:none;">Please select at least one service</div>
                     </div>
                     
                     <!-- Date and Time -->
@@ -516,9 +588,30 @@
             }
         });
         
+        // Get selected services (checkboxes)
+        function getSelectedServices() {
+            const checkboxes = document.querySelectorAll('input[name="serviceType"]:checked');
+            const selected = [];
+            checkboxes.forEach(function(checkbox) {
+                selected.push(checkbox.value);
+            });
+            return selected.join(', ');
+        }
+        
         // Form submission
         document.getElementById('quoteForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            
+            // Validate at least one service selected
+            const selectedServices = getSelectedServices();
+            const serviceError = document.getElementById('serviceError');
+            
+            if (!selectedServices) {
+                serviceError.style.display = 'block';
+                return;
+            } else {
+                serviceError.style.display = 'none';
+            }
             
             const submitBtn = document.getElementById('submitBtn');
             
@@ -531,7 +624,7 @@
                 phone: document.getElementById('phone').value,
                 email: document.getElementById('email').value,
                 address: document.getElementById('address').value,
-                serviceType: document.getElementById('serviceType').value,
+                serviceType: selectedServices,
                 selectedDate: document.getElementById('selectedDate').value,
                 selectedTime: document.getElementById('selectedTime').value,
                 notes: document.getElementById('notes').value
@@ -562,6 +655,7 @@
         document.getElementById('submitAnotherBtn').addEventListener('click', function() {
             document.getElementById('quoteForm').reset();
             document.getElementById('selectedTime').innerHTML = '<option value="">Select date first</option>';
+            document.getElementById('serviceError').style.display = 'none';
             
             document.getElementById('formContent').classList.remove('hide');
             document.getElementById('confirmation').classList.remove('show');
