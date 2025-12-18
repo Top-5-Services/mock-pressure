@@ -171,12 +171,19 @@
         }
         
         .checkbox-label input[type="checkbox"] {
+            -webkit-appearance: checkbox;
+            -moz-appearance: checkbox;
+            appearance: checkbox;
             width: 16px;
             height: 16px;
             min-width: 16px;
             margin-right: 6px;
             cursor: pointer;
             accent-color: #005293;
+        }
+        
+        .checkbox-label input[type="checkbox"]:checked {
+            background-color: #005293;
         }
         
         .checkbox-error {
